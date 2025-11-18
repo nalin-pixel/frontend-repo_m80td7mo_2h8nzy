@@ -1,0 +1,167 @@
+import { createContext, useContext, useMemo, useState } from 'react'
+
+const LanguageContext = createContext()
+
+const DICT = {
+  EN: {
+    brand: 'Mountain Memories',
+    locationTag: 'RUSUTSU · HOKKAIDO · JAPAN',
+    heroTitle: 'A Luxury Mountain Experience in World-Class Powder',
+    reserve: 'Reserve Your Stay',
+    storyTitle: 'Our Story',
+    storyHeading: 'From an Old Farm to a World Class Ski Lodge',
+    storyBody:
+      "Mountain Memories is a special place nestled in the mountains of Rusutsu, Hokkaido. With intimate groups of up to 18 guests, we transform strangers into friends and adventures into lifelong memories.",
+    experience: 'Experience',
+    theLodge: 'The Lodge',
+    bookNow: 'Book Now',
+    bookNowSubtitle: 'Experience the ultimate luxury in our alpine sanctuary',
+    valueTitle: 'Adventure Meets Relaxation',
+    valuesDesc:
+      "Experience world class skiing, Japanese nature and friendships that will last a lifetime.",
+    valueItems: [
+      { title: 'Rusutsu Resort', desc: 'The official best ski resort in Japan.' },
+      { title: 'Powder Snow', desc: "Hokkaido's famous champagne powder." },
+      { title: 'Continental Cuisine', desc: 'Daily breakfast and dinner from our in‑house chef.' },
+      { title: 'Community', desc: 'A curated group sharing epic days and cozy nights.' },
+    ],
+    scheduleTitle: 'Weekly Packages 2025/26',
+    scheduleSubtitle:
+      'Choose the week that fits your rhythm. Every stay includes meals, transport, guiding, and concierge support.',
+    enquire: 'Enquire',
+    soldOut: 'Sold Out',
+    from: 'From',
+    nights: 'Nights',
+    days: 'Days',
+    locationTitle: 'Location',
+    locationDesc: 'Surrounded by majestic mountains, 90 minutes from New Chitose Airport',
+    getDirections: 'Get Directions',
+    contact: 'Contact',
+    whatsapp: 'WhatsApp',
+    rights: 'All rights reserved',
+    privacy: 'Privacy',
+    terms: 'Terms',
+    powered: 'Powered by Reserbee',
+    formTitle: 'Send an enquiry',
+    firstName: 'First name',
+    lastName: 'Last name',
+    email: 'Email',
+    phone: 'Phone',
+    message: 'Message',
+    guests: 'Guests',
+    preferredWeek: 'Preferred week',
+    submit: 'Submit',
+    submitted: 'Thanks — we will get back to you shortly.',
+  },
+  ES: {
+    brand: 'Mountain Memories',
+    locationTag: 'RUSUTSU · HOKKAIDO · JAPÓN',
+    heroTitle: 'Una experiencia de lujo en nieve polvo de clase mundial',
+    reserve: 'Reservar',
+    storyTitle: 'Nuestra Historia',
+    storyHeading: 'De una granja antigua a un lodge de clase mundial',
+    storyBody:
+      'Mountain Memories es un lugar especial en las montañas de Rusutsu, Hokkaido. Con grupos íntimos de hasta 18 huéspedes, convertimos desconocidos en amigos y aventuras en recuerdos de por vida.',
+    experience: 'Experiencia',
+    theLodge: 'El Lodge',
+    bookNow: 'Reserva ahora',
+    bookNowSubtitle: 'Vive el máximo lujo en nuestro refugio alpino',
+    valueTitle: 'Aventura y Relajo',
+    valuesDesc:
+      'Esquí de clase mundial, naturaleza japonesa y amistades para toda la vida.',
+    valueItems: [
+      { title: 'Rusutsu Resort', desc: 'El mejor resort de esquí de Japón.' },
+      { title: 'Nieve en polvo', desc: 'La famosa champagne powder de Hokkaido.' },
+      { title: 'Cocina Continental', desc: 'Desayuno y cena diarios por nuestro chef.' },
+      { title: 'Comunidad', desc: 'Un grupo curado para compartir días épicos.' },
+    ],
+    scheduleTitle: 'Paquetes Semanales 2025/26',
+    scheduleSubtitle:
+      'Elige la semana que va contigo. Incluye comidas, transporte, guía y concierge.',
+    enquire: 'Consultar',
+    soldOut: 'Agotado',
+    from: 'Desde',
+    nights: 'Noches',
+    days: 'Días',
+    locationTitle: 'Ubicación',
+    locationDesc: 'Rodeado de montañas, a 90 minutos del aeropuerto de Chitose',
+    getDirections: 'Cómo llegar',
+    contact: 'Contacto',
+    whatsapp: 'WhatsApp',
+    rights: 'Todos los derechos reservados',
+    privacy: 'Privacidad',
+    terms: 'Términos',
+    powered: 'Con tecnología de Reserbee',
+    formTitle: 'Enviar consulta',
+    firstName: 'Nombre',
+    lastName: 'Apellido',
+    email: 'Correo',
+    phone: 'Teléfono',
+    message: 'Mensaje',
+    guests: 'Huéspedes',
+    preferredWeek: 'Semana preferida',
+    submit: 'Enviar',
+    submitted: 'Gracias — te contactaremos pronto.',
+  },
+  JA: {
+    brand: '山の思い出',
+    locationTag: '留寿都・北海道・日本',
+    heroTitle: '世界屈指のパウダースノーで贅沢なマウンテン体験を',
+    reserve: '予約する',
+    storyTitle: '私たちについて',
+    storyHeading: '古い農場から世界クラスのロッジへ',
+    storyBody:
+      '山の思い出は北海道・留寿都の山々に抱かれた特別な場所。最大18名の少人数制で、見知らぬ人が友に、冒険が一生の思い出に。',
+    experience: '体験',
+    theLodge: 'ロッジ',
+    bookNow: '今すぐ予約',
+    bookNowSubtitle: 'アルプスの聖域で究極の贅沢を',
+    valueTitle: '冒険と癒しの調和',
+    valuesDesc: '世界レベルのスキー、日本の自然、一生の友情。',
+    valueItems: [
+      { title: 'ルスツリゾート', desc: '日本最高のスキーリゾート。' },
+      { title: 'パウダースノー', desc: '北海道のシャンパンパウダー。' },
+      { title: '多国籍料理', desc: 'シェフが毎日提供する朝食と夕食。' },
+      { title: 'コミュニティ', desc: '厳選メンバーでつくる温かな交流。' },
+    ],
+    scheduleTitle: '週次パッケージ 2025/26',
+    scheduleSubtitle:
+      '食事・送迎・ガイド・コンシェルジュが含まれます。',
+    enquire: '問い合わせ',
+    soldOut: '満席',
+    from: '税込',
+    nights: '泊',
+    days: '日',
+    locationTitle: '所在地',
+    locationDesc: '新千歳空港から車で約90分、山々に囲まれたロケーション',
+    getDirections: '地図を見る',
+    contact: '連絡先',
+    whatsapp: 'WhatsApp',
+    rights: '無断転載禁止',
+    privacy: 'プライバシー',
+    terms: '利用規約',
+    powered: 'Reserbee 提供',
+    formTitle: 'お問い合わせ',
+    firstName: '名',
+    lastName: '姓',
+    email: 'メール',
+    phone: '電話',
+    message: 'メッセージ',
+    guests: '人数',
+    preferredWeek: '希望週',
+    submit: '送信',
+    submitted: 'ありがとうございます。追ってご連絡します。',
+  },
+}
+
+export function LanguageProvider({ children }) {
+  const [lang, setLang] = useState('EN')
+  const value = useMemo(() => ({ lang, setLang, t: DICT[lang] }), [lang])
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
+}
+
+export function useLang() {
+  const ctx = useContext(LanguageContext)
+  if (!ctx) throw new Error('useLang must be used within LanguageProvider')
+  return ctx
+}
